@@ -131,3 +131,4 @@ dmypy.json
 data/kaggle_dataset/
 data/scraped_dataset/
 notebooks/
+src/img/

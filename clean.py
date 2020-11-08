@@ -1,7 +1,7 @@
 import pandas as pd
 import re
 import numpy as np
-from src.myfunctions import Clean as mfc
+import src.cleaning_functions as cleaning
 
 print('Starting to clean datasets')
 
@@ -14,9 +14,9 @@ clean_dataset_path = 'data/dataset_clean.pkl'
 
 df = pd.read_csv('data/kaggle_dataset/Data.csv', engine='python')
 df = df.iloc[:,0:26] #rest of columns are related to bets. 
-df = mfc.filter_games(df, main_player) #filter games with main player in match
-df['Opponent'] = df.apply(lambda x: mfc.set_opponent(x,main_player), axis = 1) #to specify opponent
-df['Is_winner'] = df.Winner.apply(lambda x: mfc.is_winner(x, main_player)) #to specify if main player won or not
+df = cleaning.filter_games(df, main_player) #filter games with main player in match
+df['Opponent'] = df.apply(lambda x: cleaning.set_opponent(x,main_player), axis = 1) #to specify opponent
+df['Is_winner'] = df.Winner.apply(lambda x: cleaning.is_winner(x, main_player)) #to specify if main player won or not
 
 
 #Cleaning Players stats Dataframe
@@ -44,7 +44,7 @@ df_1['great_serve'] = df_1['Ace %'].dropna().apply(lambda x: True if float(x) > 
 
 
 #Find match id
-df['player_id'] = mfc.match_id_players(df, df_1)
+df['player_id'] = cleaning.match_id_players(df, df_1)
 
 
 #Merge of two dataframes
@@ -53,7 +53,7 @@ print('Starting to merge datasets')
 
 df_games_merge = df.drop(['Winner', 'Loser', 'W1', 'L1', 'W2', 'L2', 'W3', 'L3', 'W4', 'L4', 'W5', 'L5','Comment'], axis = 1) #drop columns not to be used
 
-df_players_merge = df_1[['name','Country','Plays', 'Backhand', 'great_serve']] #drop columns not to be used
+df_players_merge = df_1[['name','Country','Plays', 'Backhand', 'great_serve', 'Ace %' ]] #columns to keep
 
 players_dataset_clean = 'data/players_stats_clean.pkl' #save a copy of clean datasets of all players 
 
