@@ -8,6 +8,8 @@ from selenium.webdriver.support.ui import Select
 import tqdm
 import json
 import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 
 class Clean():
@@ -183,18 +185,6 @@ class Clean():
 
 
         return df['player_id']
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -451,7 +441,148 @@ class Scrape():
                             with open(filepath_info, 'w') as fp:
                                 json.dump(data, fp)
 
+class Plot():
+    '''
+    Collection of functions used for cleaning datasets
+    '''
+    
+    
+    def plot_surface_win(df):
 
+        '''
+        Plots wins and loses based on surface
+        Args:
+            df(Dataframe): clean dataset
+        Returns:
+
+        '''
+
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+        sns.countplot(x=df.Surface, hue =df.Is_winner, hue_order = [True, False])
+
+
+        #PLot customization
+        ax.legend(labels = ['Win', 'Lost'])
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        plt.ylabel('Number of games') 
+        plt.xlabel('') 
+        plt.title('In %, Win Rate', fontsize = 18, pad = 20)
+
+        #to show percentage of win
+        for pos, surface in enumerate(df.Surface.unique()):
+            wins = df[(df.Surface == surface)].Is_winner.sum()
+            total = df[(df.Surface == surface)].Is_winner.count()
+            number = round((wins / total) * 100,1)
+            plt.text(pos +0.2, wins + 5, f'{number} %',fontsize = 13, ha = 'right')
+
+            
+        filename = 'output/wins_surface.png'
+
+        plt.savefig(filename,bbox_inches='tight',pad_inches=0.2)
+
+
+    def plot_losses_detail(df):
+        '''
+        Plots losses percentage based on opponent is great server and leftie
+        Args:
+            df(Dataframe): clean dataset
+        Returns:
+
+        '''
+        # new column with boolean values if leftie or not
+        df['leftie'] = np.where(df['Plays'] == 'Left-handed', 1, np.where(df['Plays'] == 'Right-handed', 0, np.NaN))
+
+        total_df = df.dropna(subset=['Plays']).groupby(['Surface','leftie','great_serve']).count()[['ATP']] #this is to know total number of games per surface, great server and leftie
+        #In b dataframe we count number of wins
+        b = df.dropna(subset=['Plays']).groupby(['Surface','leftie','great_serve']).sum()[['Is_winner']].reset_index()
+
+        def get_total_games(row, total_df):
+            '''
+            Mini function to get in b dataframe total number of games based on surface, great server and leftie
+            Args:
+                row(dataframe): row dataframe from apply function
+                total_df(Dataframe): dataframe with total number of games info
+            Returns:
+                total(int): number of games
+
+            '''
+            surface = row['Surface']
+            leftie = row['leftie']
+            great_serve = row['great_serve']
+            
+            total = total_df.loc[surface].loc[leftie].loc[great_serve]
+            return total
+        
+        b['total'] = b.apply(lambda x: get_total_games(x,total_df), axis = 1)
+
+        def get_rate_loss(row):
+            '''
+            Mini function to get rate loss in b dataframe 
+            Args:
+                row(dataframe): row dataframe from apply function
+
+            Returns:
+                loss_perc(float): rate loss
+
+
+
+            '''
+            surface = row['Surface']
+            leftie = row['leftie']
+            great_serve = row['great_serve']
+            
+            
+            
+            
+            total = row['total']
+            
+            loss_perc = (total - row['Is_winner']) / total * 100
+            
+            return loss_perc
+
+        b['loss_perc'] = b.apply(lambda x: get_rate_loss(x), axis = 1)
+
+        #Here comes the actual plotting
+
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+
+        sns.scatterplot(x = b.Surface, y = b.loss_perc, hue = b.great_serve, style = b.leftie, size = b.total, sizes =(60, 60))
+
+        handles, labels = ax.get_legend_handles_labels()
+
+        handles = handles[1:3]+ handles[-2:]
+        new_labels = ['Server Specialist', 'Regular Player', 'Right-handed', 'Left-handed']
+
+        ax.legend(handles,new_labels, bbox_to_anchor=(1.4, 0.75), loc='upper right')
+
+        plt.ylabel('Loss %') 
+        plt.xlabel('') 
+
+        plt.title('Losses details', fontsize = 18, pad = 20)
+
+        filename = 'output/losses_details.png'
+
+        plt.savefig(filename,bbox_inches='tight',pad_inches=0.2)
+
+
+
+        
+
+
+
+        
+
+
+
+
+
+
+
+
+    
 
                 
 

@@ -55,6 +55,14 @@ df_games_merge = df.drop(['Winner', 'Loser', 'W1', 'L1', 'W2', 'L2', 'W3', 'L3',
 
 df_players_merge = df_1[['name','Country','Plays', 'Backhand', 'great_serve']] #drop columns not to be used
 
+players_dataset_clean = 'data/players_stats_clean.pkl' #save a copy of clean datasets of all players 
+
+
+df_players_merge.to_pickle(players_dataset_clean)
+print(f'Clean dataset with players stats successfully saved in {players_dataset_clean} ')
+
+
+
 clean_df = pd.merge(df_games_merge, df_players_merge,  how='left', left_on='player_id', right_on = 'name')
 
 clean_df['Opponent'] = np.where(clean_df['player_id'] == 'No match', clean_df['Opponent'], clean_df['name']) #Replace in opponent column name from scraping which is not truncated
@@ -63,7 +71,7 @@ clean_df = clean_df.drop(['player_id','name'], axis =1) #delete redundant column
 
 clean_df.to_pickle(clean_dataset_path)
 
-print('Datasets succesfully merged and saved!')
+print(f'Clean and merged games dataset successfully saved in {clean_dataset_path} ')
 
 
 
