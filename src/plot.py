@@ -1,5 +1,6 @@
 import pandas as pd
-from src.plotting_functions import Plot as myplot
+from src.func.plotting_functions import Plot as myplot
+
 
 print('Plotting graphs....')
 
@@ -27,4 +28,8 @@ myplot.plot_top_nemesis(df)
 #plots stats aces all players
 myplot.plot_box_aces(df_players)
 
-print('Plots created!')
+print('Plots created!\n')
+
+
+
+

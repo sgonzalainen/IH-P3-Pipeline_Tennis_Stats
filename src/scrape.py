@@ -1,5 +1,5 @@
 from selenium import webdriver
-from src.scraping_functions import Scrape as scrape
+from src.func.scraping_functions import Scrape as scrape
 
 #how I installed Selenium
 #https://tecadmin.net/setup-selenium-chromedriver-on-ubuntu/
@@ -28,7 +28,7 @@ print('Start scraping players info')
 response = scraper.scrape_players_info(main_url, players_url_path, players_info_path)  #scrapes info and saves them in json file
 
 if response == False:
-    print('Problem when scraping players info. Most likely reached max requests of website. Retry about an hour later. Progress saved.')
+    print('Problem when scraping players info. Most likely reached max requests of website. Retry about an hour later. Progress saved.\n')
 else:
-    print('Scrape of players stats done')
+    print('Scrape of players stats done.\n')
 

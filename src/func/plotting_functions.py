@@ -50,7 +50,7 @@ class Plot():
             plt.text(pos +0.2, wins + 5, f'{number} %',fontsize = 13, ha = 'right')
 
             
-        filename = 'output/wins_surface.png'
+        filename = 'output/img/wins_surface.png'
 
         plt.savefig(filename,bbox_inches='tight',pad_inches=0.2)
 
@@ -135,7 +135,7 @@ class Plot():
 
         plt.title('Losses details', fontsize = 18, pad = 20)
 
-        filename = 'output/losses_details.png'
+        filename = 'output/img/losses_details.png'
 
         plt.savefig(filename,bbox_inches='tight',pad_inches=0.2)
 
@@ -213,7 +213,7 @@ class Plot():
 
         plt.title('Top 5 defeated nationalities', fontsize = 18, pad = 20)
 
-        filename = 'output/top_countries_defeated.png'
+        filename = 'output/img/top_countries_defeated.png'
 
         plt.savefig(filename,bbox_inches='tight',pad_inches=0.2)
 
@@ -309,7 +309,7 @@ class Plot():
         ax.axis('off')
 
 
-        filename = 'output/top_nemesis.png'
+        filename = 'output/img/top_nemesis.png'
 
         plt.savefig(filename,bbox_inches='tight',pad_inches=0.2)
 
@@ -382,7 +382,9 @@ class Plot():
         ax.spines['top'].set_visible(False)
         ax.spines['bottom'].set_visible(False)
 
-        filename = 'output/aces_detail.png'
+        plt.title('Ace % Distribution', fontsize = 18, pad = 20)
+
+        filename = 'output/img/aces_detail.png'
 
         plt.savefig(filename,bbox_inches='tight',pad_inches=0.2)
         

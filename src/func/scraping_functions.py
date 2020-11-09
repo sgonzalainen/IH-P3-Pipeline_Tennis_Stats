@@ -1,7 +1,6 @@
 import re
 import time
 from bs4 import BeautifulSoup
-import requests
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 import tqdm

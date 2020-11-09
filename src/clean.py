@@ -1,7 +1,7 @@
 import pandas as pd
 import re
 import numpy as np
-import src.cleaning_functions as cleaning
+import src.func.cleaning_functions as cleaning
 
 print('Starting to clean datasets')
 
@@ -71,7 +71,7 @@ clean_df = clean_df.drop(['player_id','name'], axis =1) #delete redundant column
 
 clean_df.to_pickle(clean_dataset_path)
 
-print(f'Clean and merged games dataset successfully saved in {clean_dataset_path} ')
+print(f'Clean and merged games dataset successfully saved in {clean_dataset_path}.\n')
 
 
 
