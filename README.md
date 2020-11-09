@@ -2,7 +2,7 @@
 
 # Tennis Stats. Scraping and Data Pipeline.
 
- <div style="text-align:center"><img src="https://drhaleyperlus.com/wp-content/uploads/2015/05/ap479690845070-banner-900x229.jpg" height=180 /></div>
+ <div style="text-align:center"><img src="src/img/banner.jpg" height=180 /></div>
 
 The scope of [this Ironhack project](https://github.com/sgonzalainen/datamad1020-rev/tree/master/projects/W3-pipelines-project) is to prepare a smooth data pipeline.
 

@@ -131,5 +131,9 @@ dmypy.json
 data/kaggle_dataset/
 data/scraped_dataset/
 notebooks/
-src/img/
-#output/img/flag.png
+src/img/Davydenko.jpg
+src/img/Djokovic.jpg
+src/img/Federer.jpg
+src/img/Ferrer.jpg
+src/img/Murray.jpg
+src/img/Nadal.jpg
