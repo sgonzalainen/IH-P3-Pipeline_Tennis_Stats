@@ -5,6 +5,7 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 import tqdm
 import json
+import pandas as pd
 
 
 
